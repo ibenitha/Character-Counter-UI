@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Character Counter</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="header">
+        <a class="header__logo" href="#" aria-label="Character Counter home">
+          <div class="brand-logo" aria-hidden="true">
+            <div class="brand-logo-left"></div>
+            <div class="brand-logo-right"></div>
+          </div>
+          <span>Character Counter</span>
+        </a>
+
+        <input
+          type="checkbox"
+          class="theme-switch visually-hidden"
+          id="theme-switch"
+        />
+        <label class="theme-toggle" for="theme-switch">
+          <span class="visually-hidden">Switch theme</span>
+          <img
+            class="theme-toggle__icon theme-toggle__icon--sun"
+            src="assets/images/icon-sun.svg"
+            alt=""
+            width="24"
+            height="24"
+          />
+          <img
+            class="theme-toggle__icon theme-toggle__icon--moon"
+            src="assets/images/icon-moon.svg"
+            alt=""
+            width="24"
+            height="24"
+          />
+        </label>
+      </header>
+
+      <main class="main">
+        <h1 class="hero-title">
+          Analyze your text<br class="hero-title__break" />
+          in real-time.
+        </h1>
+
+        <section class="analyzer" aria-labelledby="analyzer-label">
+          <h2 id="analyzer-label" class="visually-hidden">Text analyzer</h2>
+
+          <div class="textarea-wrapper">
+            <textarea
+              class="textarea"
+              rows="9"
+              placeholder="Start typing here..."
+              aria-describedby="reading-time"
+            >Design is the silent ambassador of your brand. Simplicity is key to effective communication, creating clarity in every interaction. A great design transforms complex ideas into elegant solutions, making them easy to understand. It blends aesthetics and functionality seamlessly.</textarea>
+          </div>
+
+          <div class="controls">
+            <div class="controls__options">
+              <label class="checkbox">
+                <input
+                  class="checkbox__input"
+                  type="checkbox"
+                  id="exclude-spaces"
+                />
+                <span class="checkbox__box" aria-hidden="true"></span>
+                <span class="checkbox__label">Exclude Spaces</span>
+              </label>
+
+              <label class="checkbox">
+                <input class="checkbox__input" type="checkbox" id="set-limit" />
+                <span class="checkbox__box" aria-hidden="true"></span>
+                <span class="checkbox__label">Set Character Limit</span>
+              </label>
+
+              <div class="limit-input-wrapper">
+                <label class="limit-input-label" for="character-limit">
+                  Character limit
+                </label>
+                <input
+                  class="limit-input"
+                  type="number"
+                  id="character-limit"
+                  min="1"
+                  value="300"
+                  aria-label="Character limit"
+                />
+              </div>
+            </div>
+
+            <p class="reading-time" id="reading-time">
+              Approx. reading time: <span>&lt;1 minute</span>
+            </p>
+          </div>
+
+          <div class="stats">
+            <article class="stat-card stat-card--characters">
+              <div class="stat-card__content">
+                <p class="stat-card__value">508</p>
+                <p class="stat-card__label">Total Characters</p>
+              </div>
+            </article>
+
+            <article class="stat-card stat-card--words">
+              <div class="stat-card__content">
+                <p class="stat-card__value">86</p>
+                <p class="stat-card__label">Word Count</p>
+              </div>
+            </article>
+
+            <article class="stat-card stat-card--lines">
+              <div class="stat-card__content">
+                <p class="stat-card__value">06</p>
+                <p class="stat-card__label">Line Count</p>
+              </div>
+            </article>
+          </div>
+
+          <section class="letter-density" aria-labelledby="density-title">
+            <h2 class="letter-density__title" id="density-title">
+              Letter Density
+            </h2>
+
+            <ul class="letter-density__list">
+              <li class="density-item">
+                <span class="density-item__letter">E</span>
+                <div class="density-item__bar" role="presentation">
+                  <div class="density-item__fill density-item__fill--e"></div>
+                </div>
+                <span class="density-item__stats">59 (13.85%)</span>
+              </li>
+
+              <li class="density-item">
+                <span class="density-item__letter">I</span>
+                <div class="density-item__bar" role="presentation">
+                  <div class="density-item__fill density-item__fill--i"></div>
+                </div>
+                <span class="density-item__stats">41 (9.63%)</span>
+              </li>
+
+              <li class="density-item">
+                <span class="density-item__letter">T</span>
+                <div class="density-item__bar" role="presentation">
+                  <div class="density-item__fill density-item__fill--t"></div>
+                </div>
+                <span class="density-item__stats">38 (8.92%)</span>
+              </li>
+            </ul>
+          </section>
+        </section>
+      </main>
+    </div>
+    <script>
+      const themeSwitch = document.getElementById('theme-switch');
+      const root = document.documentElement;
+
+      function updateTheme() {
+        if (themeSwitch.checked) {
+          root.classList.add('theme-light');
+        } else {
+          root.classList.remove('theme-light');
+        }
+      }
+
+      themeSwitch.addEventListener('change', updateTheme);
+      updateTheme();
+    </script>
+  </body>
+</html>
