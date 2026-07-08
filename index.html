@@ -160,9 +160,19 @@
         </section>
       </main>
     </div>
+    <script src="assets/js/character-counter.js"></script>
     <script>
       const themeSwitch = document.getElementById('theme-switch');
       const root = document.documentElement;
+      const textarea = document.querySelector('.textarea');
+      const excludeSpaces = document.getElementById('exclude-spaces');
+      const setLimit = document.getElementById('set-limit');
+      const characterLimitInput = document.getElementById('character-limit');
+      const totalCharactersValue = document.querySelector('.stat-card--characters .stat-card__value');
+      const wordCountValue = document.querySelector('.stat-card--words .stat-card__value');
+      const lineCountValue = document.querySelector('.stat-card--lines .stat-card__value');
+      const readingTimeValue = document.querySelector('.reading-time span');
+      const densityList = document.querySelector('.letter-density__list');
 
       function updateTheme() {
         if (themeSwitch.checked) {
@@ -172,8 +182,46 @@
         }
       }
 
+      function renderAnalysis() {
+        const result = analyzeText(textarea.value, {
+          excludeSpaces: excludeSpaces.checked,
+        });
+
+        totalCharactersValue.textContent = String(result.totalCharacters).padStart(3, '0');
+        wordCountValue.textContent = String(result.wordCount).padStart(2, '0');
+        lineCountValue.textContent = String(result.lineCount).padStart(2, '0');
+        readingTimeValue.textContent = result.readingTime;
+
+        const limitEnabled = setLimit.checked;
+        const characterLimit = Number(characterLimitInput.value);
+        if (limitEnabled && Number.isFinite(characterLimit) && characterLimit > 0) {
+          const overLimit = result.totalCharacters > characterLimit;
+          readingTimeValue.textContent = overLimit
+            ? `${result.readingTime} • over limit`
+            : `${result.readingTime} • within limit`;
+        }
+
+        densityList.innerHTML = result.density
+          .map((item) => `
+            <li class="density-item">
+              <span class="density-item__letter">${item.letter}</span>
+              <div class="density-item__bar" role="presentation">
+                <div class="density-item__fill" style="width: ${Math.min(item.percentage, 100)}%"></div>
+              </div>
+              <span class="density-item__stats">${item.count} (${item.percentage}%)</span>
+            </li>
+          `)
+          .join('');
+      }
+
+      [themeSwitch, textarea, excludeSpaces, setLimit, characterLimitInput].forEach((element) => {
+        element.addEventListener('input', renderAnalysis);
+        element.addEventListener('change', renderAnalysis);
+      });
+
       themeSwitch.addEventListener('change', updateTheme);
       updateTheme();
+      renderAnalysis();
     </script>
   </body>
 </html>
